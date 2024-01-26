@@ -33,8 +33,8 @@ export class AuthService {
     return this.jwtService.sign(payload, {
       expiresIn: String(process.env.JWT_EXPIRATION_DATE),
       subject: user.id,
-      issuer: 'squad4',
-      audience: 'backHackaton',
+      issuer: String(process.env.JWT_ISSUER),
+      audience: String(process.env.JWT_AUDIENCE),
       secret: String(process.env.JWT_SECRET_KEY),
     });
   }
