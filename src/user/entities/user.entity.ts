@@ -18,7 +18,7 @@ export class User {
   @Column({ nullable: false })
   password: string;
 
-  @Column()
+  @Column({ nullable: true })
   avatar_url: string;
 
   @OneToMany(() => Project, (project) => project.user)
