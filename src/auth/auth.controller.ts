@@ -55,6 +55,25 @@ export class AuthController {
     return response;
   }
 
+  @Post('logout')
+  @HttpCode(HttpStatus.OK)
+  async logout(@Res({ passthrough: true }) res: Response) {
+    res.cookie('token', '', {
+      httpOnly: true,
+      secure: true,
+      path: '/',
+      maxAge: 0,
+    });
+
+    const response: ResponseDto = {
+      statusCode: HttpStatus.OK,
+      message: 'Logout feito com sucesso!',
+      error: false,
+    };
+
+    return response;
+  }
+
   @Post('login/google')
   loginGoogle() {
     return this.authService.loginGoogle();
