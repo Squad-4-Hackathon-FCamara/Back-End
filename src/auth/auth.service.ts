@@ -3,7 +3,6 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { UserService } from 'src/user/user.service';
 import { LoginDto } from './dto/login-dto';
 import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
 import { User } from 'src/user/entities/user.entity';
 import * as bcrypt from 'bcrypt';
 
@@ -12,7 +11,6 @@ export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
-    private config: ConfigService,
   ) {}
 
   async register(createUserDto: CreateUserDto) {

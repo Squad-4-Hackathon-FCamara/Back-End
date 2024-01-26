@@ -10,7 +10,6 @@ import { JwtModule } from '@nestjs/jwt';
     UserModule,
     JwtModule.register({
       global: true,
-      secret: String(process.env.JWT_SECRET_KEY),
     }),
   ],
   controllers: [AuthController],
