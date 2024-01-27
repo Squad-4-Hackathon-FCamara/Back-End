@@ -41,6 +41,20 @@ export class CreateProjectDto {
   })
   description: string;
 
-  @IsNotEmpty()
+  @IsString({
+    message: 'A URL da thumbnail deve ser uma string',
+  })
+  @IsNotEmpty({
+    message: 'A URL da thumbnail deve ser preenchida',
+  })
+  @IsUrl(
+    {
+      protocols: ['http', 'https', 'ftp'],
+      require_protocol: true,
+    },
+    {
+      message: 'A URL da thumbnail fornecida é inválida.',
+    },
+  )
   thumbnail_url: string;
 }
