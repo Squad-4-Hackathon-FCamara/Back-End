@@ -31,7 +31,13 @@ export class ProjectService {
     return `This action updates a #${id} project`;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} project`;
+  async remove(id: string) {
+    const project = await this.projectRepository.findOne({
+      where: {
+        id: Equal(id),
+      },
+    });
+    await this.projectRepository.delete(project.id);
+    return { message: 'Projeto apagado com sucesso!' };
   }
 }
