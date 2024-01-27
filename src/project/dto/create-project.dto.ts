@@ -36,7 +36,9 @@ export class CreateProjectDto {
   url: string;
 
   @IsOptional()
-  @MaxLength(350)
+  @MaxLength(350, {
+    message: 'A descrição deve ter no máximo 350 caracteres',
+  })
   description: string;
 
   @IsNotEmpty()
