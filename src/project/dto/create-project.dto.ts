@@ -18,7 +18,21 @@ export class CreateProjectDto {
   })
   title: string;
 
-  @IsNotEmpty()
+  @IsString({
+    message: 'A URL deve ser uma string',
+  })
+  @IsNotEmpty({
+    message: 'A URL deve ser preenchida',
+  })
+  @IsUrl(
+    {
+      protocols: ['http', 'https', 'ftp'],
+      require_protocol: true,
+    },
+    {
+      message: 'A URL fornecida é inválida.',
+    },
+  )
   url: string;
 
   @IsOptional()
