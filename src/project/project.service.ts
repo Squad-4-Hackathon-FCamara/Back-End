@@ -27,11 +27,11 @@ export class ProjectService {
 
   findByTags() {}
 
-  update(id: number, updateProjectDto: UpdateProjectDto) {
+  update(id: string, updateProjectDto: UpdateProjectDto) {
     return `This action updates a #${id} project`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} project`;
   }
 }
