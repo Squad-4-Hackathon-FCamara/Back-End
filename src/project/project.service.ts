@@ -17,7 +17,12 @@ export class ProjectService {
   }
 
   findOne(id: string) {
-    return `This action returns a #${id} project`;
+    const project = this.projectRepository.findOne({
+      where: {
+        id: Equal(id),
+      },
+    });
+    return project;
   }
 
   findByTags() {}
