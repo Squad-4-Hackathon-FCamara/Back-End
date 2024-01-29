@@ -21,6 +21,7 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
+import { ResponseDto } from 'src/utils/response-dto/response-dto';
 
 @Controller('project')
 export class ProjectController {
@@ -33,7 +34,7 @@ export class ProjectController {
     @Body() createProjectDto: CreateProjectDto,
     @UploadedFile(
       new ParseFilePipe({
-        fileIsRequired: true,
+        fileIsRequired: false,
         errorHttpStatusCode: HttpStatus.BAD_REQUEST,
         validators: [
           new MaxFileSizeValidator({
@@ -49,12 +50,19 @@ export class ProjectController {
     file: Express.Multer.File,
     @Req() req: Request,
   ) {
-    if (file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/png')
-      throw new BadRequestException('Imagem deve ter algum dos formatos: JPG, PNG ou GIF');
+    if (file && file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/png')
+      throw new BadRequestException('Imagem deve ter algum dos formatos: JPG ou PNG');
 
     const { id: userId } = req.user as { id: string };
 
-    return this.projectService.create(createProjectDto, userId, file);
+    await this.projectService.create(createProjectDto, userId, file);
+
+    const response: ResponseDto = {
+      statusCode: HttpStatus.CREATED,
+      message: 'Projeto criado com sucesso!',
+      error: false,
+    };
+    return response;
   }
 
   @Get()

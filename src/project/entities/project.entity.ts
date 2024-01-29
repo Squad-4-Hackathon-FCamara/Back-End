@@ -25,7 +25,7 @@ export class Project {
   @Column({ length: 350, nullable: true })
   description: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   thumbnail_url: string;
 
   @CreateDateColumn()
