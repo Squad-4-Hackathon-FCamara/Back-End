@@ -22,7 +22,7 @@ export class Project {
   @Column({ nullable: false })
   url: string;
 
-  @Column({ length: 350 })
+  @Column({ length: 350, nullable: true })
   description: string;
 
   @Column({ nullable: false })
