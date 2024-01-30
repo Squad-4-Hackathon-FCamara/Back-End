@@ -1,10 +1,4 @@
-import {
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  IsUrl,
-  MaxLength,
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUrl, MaxLength } from 'class-validator';
 
 export class CreateProjectDto {
   @IsString({
@@ -40,21 +34,4 @@ export class CreateProjectDto {
     message: 'A descrição deve ter no máximo 350 caracteres',
   })
   description: string;
-
-  @IsString({
-    message: 'A URL da thumbnail deve ser uma string',
-  })
-  @IsNotEmpty({
-    message: 'A URL da thumbnail deve ser preenchida',
-  })
-  @IsUrl(
-    {
-      protocols: ['http', 'https', 'ftp'],
-      require_protocol: true,
-    },
-    {
-      message: 'A URL da thumbnail fornecida é inválida.',
-    },
-  )
-  thumbnail_url: string;
 }
