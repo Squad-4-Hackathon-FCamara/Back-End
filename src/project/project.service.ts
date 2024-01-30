@@ -1,11 +1,16 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import * as FormData from 'form-data';
 import ImgurClient from 'imgur';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Project } from './entities/project.entity';
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 import { UserService } from 'src/user/user.service';
 import { User } from 'src/user/entities/user.entity';
 import { ResponseDto } from 'src/utils/response-dto/response-dto';
@@ -58,7 +63,22 @@ export class ProjectService {
     return `This action updates a #${id} project`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} project`;
+  async remove(id: string, userId: string) {
+    const project: Project = await this.projectRepository.findOne({
+      where: {
+        id: Equal(id),
+      },
+      relations: {
+        user: true,
+      },
+    });
+
+    if (!project) throw new NotFoundException('Projeto não encontrado!');
+    if (project.user.id !== userId)
+      throw new UnauthorizedException(
+        'Você não pode deletar um projeto de outro usuário!',
+      );
+
+    return await this.projectRepository.delete(project.id);
   }
 }

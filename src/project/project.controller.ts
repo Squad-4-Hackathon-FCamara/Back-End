@@ -84,7 +84,15 @@ export class ProjectController {
 
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
-  remove(@Param('id') id: string) {
-    return this.projectService.remove(+id);
+  async remove(@Param('id') id: string, @Req() req: Request) {
+    const { id: userId } = req.user as { id: string };
+    await this.projectService.remove(id, userId);
+
+    const response: ResponseDto = {
+      statusCode: HttpStatus.OK,
+      message: 'Projeto deletado com sucesso!',
+      error: false,
+    };
+    return response;
   }
 }
