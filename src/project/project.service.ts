@@ -49,9 +49,19 @@ export class ProjectService {
     return response;
   }
 
-  // findAll() {
-  //   return `This action returns all project`;
-  // }
+  async findOne(id: string) {
+    const project: Project = await this.projectRepository.findOne({
+      where: {
+        id: Equal(id),
+      },
+      relations: {
+        user: true,
+        tags: true,
+      },
+    });
+    if (!project) throw new NotFoundException('Projeto não encontrado!');
+    return project;
+  }
 
   findOne(id: number) {
     return `This action returns a #${id} project`;
