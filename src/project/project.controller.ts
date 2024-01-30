@@ -21,6 +21,7 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
+import { ResponseDto } from 'src/utils/response-dto/response-dto';
 
 @Controller('project')
 export class ProjectController {
@@ -65,8 +66,14 @@ export class ProjectController {
 
   @Get(':id')
   @UseGuards(AuthGuard('jwt'))
-  findOne(@Param('id') id: string) {
-    return this.projectService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const response: ResponseDto = {
+      statusCode: HttpStatus.OK,
+      message: await this.projectService.findOne(id),
+      error: false,
+    };
+
+    return response;
   }
 
   @Patch(':id')
