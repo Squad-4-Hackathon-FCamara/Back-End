@@ -41,9 +41,6 @@ export class ProjectController {
             maxSize: 200000,
             message: 'Imagem não pode ter mais de 200kb',
           }),
-          // new FileTypeValidator({
-          //   fileType: '^[a-zA-Z0-9-_.]+.(jpe? g|gif|png)$',
-          // }),
         ],
       }),
     )

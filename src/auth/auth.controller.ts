@@ -36,14 +36,12 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  async login(
-    @Body() loginDto: LoginDto,
-    @Res({ passthrough: true }) res: Response,
-  ) {
+  async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
     res.cookie('token', await this.authService.login(loginDto), {
       httpOnly: true,
       secure: true,
       path: '/',
+      sameSite: 'none',
     });
 
     const response: ResponseDto = {
