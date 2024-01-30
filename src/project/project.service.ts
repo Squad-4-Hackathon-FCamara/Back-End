@@ -13,40 +13,49 @@ import { Project } from './entities/project.entity';
 import { Equal, Repository } from 'typeorm';
 import { UserService } from 'src/user/user.service';
 import { User } from 'src/user/entities/user.entity';
-import { ResponseDto } from 'src/utils/response-dto/response-dto';
+import { Tag } from 'src/tag/entities/tag.entity';
+import { TagService } from 'src/tag/tag.service';
 
 @Injectable()
 export class ProjectService {
   constructor(
-    @InjectRepository(Project) private projetcRepository: Repository<Project>,
+    @InjectRepository(Project) private projectRepository: Repository<Project>,
     private userService: UserService,
+    private tagService: TagService,
   ) {}
 
-  async create(createProjectDto: CreateProjectDto, userId: string, file: Express.Multer.File) {
+  async create(
+    createProjectDto: CreateProjectDto,
+    userId: string,
+    file: Express.Multer.File,
+  ) {
     const user: User = await this.userService.findOne(userId);
+    const tags: Tag[] = await this.tagService.findAll();
 
-    const newProject = this.projetcRepository.create(createProjectDto);
+    const newProject = this.projectRepository.create({ ...createProjectDto, tags: [] });
+
+    const projectTags: Tag[] = tags.filter(
+      (tag) => tag.id === createProjectDto.tags.filter((el) => el === tag.id)[0],
+    );
+
     newProject.user = user;
+    newProject.tags = projectTags;
 
-    const data = new FormData();
-    data.append('image', JSON.stringify(file));
+    if (file) {
+      const data = new FormData();
+      data.append('image', JSON.stringify(file));
 
-    const client = new ImgurClient({ clientId: process.env.Client_ID_Imgur });
+      const client = new ImgurClient({ clientId: process.env.Client_ID_Imgur });
 
-    const thumbnail = await client.upload({
-      image: file.buffer,
-      type: 'stream',
-    });
+      const thumbnail = await client.upload({
+        image: file.buffer,
+        type: 'stream',
+      });
 
-    newProject.thumbnail_url = thumbnail.data.link;
-    await this.projetcRepository.save(newProject);
+      newProject.thumbnail_url = thumbnail.data.link;
+    }
 
-    const response: ResponseDto = {
-      statusCode: HttpStatus.CREATED,
-      message: 'Projeto criado com sucesso!',
-      error: false,
-    };
-    return response;
+    return await this.projectRepository.save(newProject);
   }
 
   async findOne(id: string) {
@@ -61,10 +70,6 @@ export class ProjectService {
     });
     if (!project) throw new NotFoundException('Projeto não encontrado!');
     return project;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} project`;
   }
 
   findByTags() {}
