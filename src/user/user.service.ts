@@ -1,14 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Project } from 'src/project/entities/project.entity';
+import { ProjectService } from 'src/project/project.service';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectRepository(User) private userRepository: Repository<User>) {}
+  constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
+    @Inject(forwardRef(() => ProjectService)) private projectService: ProjectService,
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
     const newUser: User = this.userRepository.create(createUserDto);
@@ -25,10 +30,18 @@ export class UserService {
     const user: User = await this.userRepository.findOne({
       where: { id },
       relations: { projects: true },
-      select: { avatar_url: true, firstName: true, lastName: true, id: true },
+      select: {
+        avatar_url: true,
+        firstName: true,
+        lastName: true,
+        id: true,
+        projects: true,
+      },
     });
 
     if (!user) throw new NotFoundException('Usuário não encontrado');
+
+    user.projects = await this.projectService.findAllByUser(user.id);
 
     return user;
   }

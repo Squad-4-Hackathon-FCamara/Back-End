@@ -1,4 +1,11 @@
-import { HttpStatus, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  HttpStatus,
+  Inject,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+  forwardRef,
+} from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import * as FormData from 'form-data';
@@ -15,7 +22,7 @@ import { TagService } from 'src/tag/tag.service';
 export class ProjectService {
   constructor(
     @InjectRepository(Project) private projectRepository: Repository<Project>,
-    private userService: UserService,
+    @Inject(forwardRef(() => UserService)) private userService: UserService,
     private tagService: TagService,
   ) {}
 
@@ -61,7 +68,17 @@ export class ProjectService {
       select: { user: { avatar_url: true, firstName: true, lastName: true, id: true } },
     });
     if (!project) throw new NotFoundException('Projeto não encontrado!');
+
     return project;
+  }
+
+  async findAllByUser(userId: string) {
+    const projects: Project[] = await this.projectRepository.find({
+      relations: { tags: true, user: true },
+    });
+    const filteredProjects = projects.filter((proj) => proj.user.id === userId);
+
+    return filteredProjects;
   }
 
   async discovery(userId: string) {
@@ -73,14 +90,21 @@ export class ProjectService {
     return filterProjects;
   }
 
-  async update(id: string, updateProjectDto: UpdateProjectDto, userId: string, file: Express.Multer.File) {
+  async update(
+    id: string,
+    updateProjectDto: UpdateProjectDto,
+    userId: string,
+    file: Express.Multer.File,
+  ) {
     const project: Project = await this.projectRepository.findOne({
       where: { id },
       relations: { user: true },
     });
 
     if (project.user.id !== userId)
-      throw new UnauthorizedException('Você não tem permissão para atualizar um projeto de outro usuário!');
+      throw new UnauthorizedException(
+        'Você não tem permissão para atualizar um projeto de outro usuário!',
+      );
 
     if (!project) throw new NotFoundException('Projeto não encontrado!');
 
