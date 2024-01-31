@@ -1,9 +1,4 @@
-import {
-  HttpStatus,
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { HttpStatus, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import * as FormData from 'form-data';
@@ -24,11 +19,7 @@ export class ProjectService {
     private tagService: TagService,
   ) {}
 
-  async create(
-    createProjectDto: CreateProjectDto,
-    userId: string,
-    file: Express.Multer.File,
-  ) {
+  async create(createProjectDto: CreateProjectDto, userId: string, file: Express.Multer.File) {
     const user: User = await this.userService.findOne(userId);
     const tags: Tag[] = await this.tagService.findAll();
 
@@ -67,12 +58,20 @@ export class ProjectService {
         user: true,
         tags: true,
       },
+      select: { user: { avatar_url: true, firstName: true, lastName: true, id: true } },
     });
     if (!project) throw new NotFoundException('Projeto não encontrado!');
     return project;
   }
 
-  findByTags() {}
+  async discovery(userId: string) {
+    const projects = await this.projectRepository.find({
+      relations: { user: true, tags: true },
+    });
+
+    const filterProjects = projects.filter((proj) => proj.user.id !== userId);
+    return filterProjects;
+  }
 
   update(id: number, updateProjectDto: UpdateProjectDto) {
     return `This action updates a #${id} project`;
@@ -90,9 +89,7 @@ export class ProjectService {
 
     if (!project) throw new NotFoundException('Projeto não encontrado!');
     if (project.user.id !== userId)
-      throw new UnauthorizedException(
-        'Você não pode deletar um projeto de outro usuário!',
-      );
+      throw new UnauthorizedException('Você não pode deletar um projeto de outro usuário!');
 
     return await this.projectRepository.delete(project.id);
   }

@@ -62,10 +62,18 @@ export class ProjectController {
     return response;
   }
 
-  @Get()
+  @Get('discovery')
   @UseGuards(AuthGuard('jwt'))
-  findByTags() {
-    return this.projectService.findByTags();
+  async discovery(@Req() req: Request) {
+    const { id: userId } = req.user as { id: string };
+
+    const response: ResponseDto = {
+      statusCode: HttpStatus.OK,
+      message: await this.projectService.discovery(userId),
+      error: false,
+    };
+
+    return response;
   }
 
   @Get(':id')
