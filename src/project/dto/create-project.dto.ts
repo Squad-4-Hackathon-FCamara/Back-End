@@ -1,17 +1,36 @@
-import { IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUrl,
+  MaxLength,
+} from 'class-validator';
 
 export class CreateProjectDto {
-  @IsNotEmpty()
-  @MaxLength(30)
+  @IsNotEmpty({
+    message: 'title: O título deve ser preenchido',
+  })
+  @IsString({
+    message: 'title: O título deve ser uma string',
+  })
+  @MaxLength(30, {
+    message: 'title: O título deve ter no máximo 30 caracteres',
+  })
   title: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({
+    message: ':url: A URL deve ser preenchida',
+  })
   url: string;
 
-  @IsOptional()
-  @MaxLength(350)
-  description: string;
+  @IsNotEmpty({ message: 'tags: O campo de tags não pode estar vazio' })
+  @IsArray({ message: 'tags: O campo de tags deve vir como um array' })
+  tags: string[];
 
-  @IsNotEmpty()
-  thumbnail_url: string;
+  @IsOptional()
+  @MaxLength(350, {
+    message: 'description: A descrição deve ter no máximo 350 caracteres',
+  })
+  description: string;
 }

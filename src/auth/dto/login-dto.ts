@@ -1,7 +1,7 @@
 import { IsEmail, IsStrongPassword } from 'class-validator';
 
 export class LoginDto {
-  @IsEmail()
+  @IsEmail({}, { message: `email: O email deve ser válido` })
   email: string;
 
   @IsStrongPassword(
@@ -14,7 +14,7 @@ export class LoginDto {
     },
     {
       message:
-        'A senha deve conter pelo menos 8 caracteres, sendo eles no mínimo 1 maiúsculo, 1 maiúsculo, 1 símbolo e 1 número.',
+        'password: A senha deve conter pelo menos 8 caracteres, sendo eles no mínimo 1 maiúsculo, 1 maiúsculo, 1 símbolo e 1 número.',
     },
   )
   password: string;
