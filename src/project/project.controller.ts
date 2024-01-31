@@ -90,8 +90,37 @@ export class ProjectController {
 
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
-  update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
-    return this.projectService.update(+id, updateProjectDto);
+  @UseInterceptors(FileInterceptor('file'))
+  async update(
+    @Param('id') id: string,
+    @Body() updateProjectDto: UpdateProjectDto,
+    @UploadedFile(
+      new ParseFilePipe({
+        fileIsRequired: false,
+        errorHttpStatusCode: HttpStatus.BAD_REQUEST,
+        validators: [
+          new MaxFileSizeValidator({
+            maxSize: 200000,
+            message: 'Imagem não pode ter mais de 200kb',
+          }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+    @Req() req: Request,
+  ) {
+    if (file && file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/png')
+      throw new BadRequestException('Imagem deve ter algum dos formatos: JPG ou PNG');
+
+    const { id: userId } = req.user as { id: string };
+
+    await this.projectService.update(id, updateProjectDto, userId, file);
+    const response: ResponseDto = {
+      statusCode: HttpStatus.OK,
+      message: 'Projeto atualizado com sucesso!',
+      error: false,
+    };
+    return response;
   }
 
   @Delete(':id')

@@ -73,8 +73,46 @@ export class ProjectService {
     return filterProjects;
   }
 
-  update(id: number, updateProjectDto: UpdateProjectDto) {
-    return `This action updates a #${id} project`;
+  async update(id: string, updateProjectDto: UpdateProjectDto, userId: string, file: Express.Multer.File) {
+    const project: Project = await this.projectRepository.findOne({
+      where: { id },
+      relations: { user: true },
+    });
+
+    if (project.user.id !== userId)
+      throw new UnauthorizedException('Você não tem permissão para atualizar um projeto de outro usuário!');
+
+    if (!project) throw new NotFoundException('Projeto não encontrado!');
+
+    const tags: Tag[] = await this.tagService.findAll();
+    const projectTags: Tag[] = tags.filter(
+      (tag) => tag.id === updateProjectDto.tags.filter((el) => el === tag.id)[0],
+    );
+
+    project.tags = projectTags;
+
+    if (file) {
+      const data = new FormData();
+      data.append('image', JSON.stringify(file));
+
+      const client = new ImgurClient({ clientId: process.env.Client_ID_Imgur });
+
+      const thumbnail = await client.upload({
+        image: file.buffer,
+        type: 'stream',
+      });
+
+      project.thumbnail_url = thumbnail.data.link;
+    }
+
+    await this.projectRepository.save({
+      id,
+      ...updateProjectDto,
+      tags: projectTags,
+      thumbnail_url: project.thumbnail_url,
+    });
+
+    return this.projectRepository.findOne({ where: { id } });
   }
 
   async remove(id: string, userId: string) {
