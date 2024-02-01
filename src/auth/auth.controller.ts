@@ -48,6 +48,13 @@ export class AuthController {
       sameSite: 'none',
     });
 
+    res.cookie('is-logged-in', true, {
+      httpOnly: false,
+      secure: true,
+      path: '/',
+      sameSite: 'none',
+    });
+
     const response: ResponseDto = {
       statusCode: HttpStatus.OK,
       message: 'Login feito com sucesso!',
@@ -68,6 +75,14 @@ export class AuthController {
     });
 
     req.user = undefined;
+
+    res.cookie('is-logged-in', false, {
+      httpOnly: false,
+      secure: true,
+      path: '/',
+      sameSite: 'none',
+      maxAge: 0,
+    });
 
     const response: ResponseDto = {
       statusCode: HttpStatus.OK,
