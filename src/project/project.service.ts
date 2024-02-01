@@ -1,9 +1,9 @@
 import {
   BadRequestException,
-  HttpStatus,
   Inject,
   Injectable,
   NotFoundException,
+  ServiceUnavailableException,
   UnauthorizedException,
   forwardRef,
 } from '@nestjs/common';
@@ -50,6 +50,9 @@ export class ProjectService {
         image: file.buffer,
         type: 'stream',
       });
+
+      if (!thumbnail.success)
+        throw new ServiceUnavailableException('Não foi possível fazer o upload da imagem');
 
       newProject.thumbnail_url = thumbnail.data.link;
     }
@@ -132,6 +135,9 @@ export class ProjectService {
         image: file.buffer,
         type: 'stream',
       });
+
+      if (!thumbnail.success)
+        throw new ServiceUnavailableException('Não foi possível fazer o upload da imagem');
 
       project.thumbnail_url = thumbnail.data.link;
     }
