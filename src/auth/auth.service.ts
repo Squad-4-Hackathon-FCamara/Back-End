@@ -21,7 +21,8 @@ export class AuthService {
   async login(loginDto: LoginDto, userGoogle = false) {
     const user: User = await this.userService.findOneByEmail(loginDto.email);
 
-    if (user.google) throw new UnauthorizedException('Seu email foi cadastrado usando o google!');
+    if (user.google && !userGoogle)
+      throw new UnauthorizedException('Seu email foi cadastrado usando o google!');
 
     if (!user || !(userGoogle || (await bcrypt.compare(loginDto.password, user?.password))))
       throw new UnauthorizedException('Usuário ou senha inválidos!');

@@ -95,9 +95,7 @@ export class AuthController {
 
   @Get('login/google')
   @UseGuards(AuthGuard('google'))
-  loginGoogle(@Req() req: Request) {
-    return this.authService.loginGoogle();
-  }
+  loginGoogle(@Req() req: Request) {}
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
@@ -120,12 +118,6 @@ export class AuthController {
       sameSite: 'none',
     });
 
-    const response: ResponseDto = {
-      statusCode: HttpStatus.OK,
-      message: 'Login feito com sucesso!',
-      error: false,
-    };
-
-    return response;
+    res.redirect('http://localhost:5173/');
   }
 }
