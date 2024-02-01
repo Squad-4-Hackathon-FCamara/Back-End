@@ -62,6 +62,14 @@ export class AuthController {
       maxAge: 0,
     });
 
+    res.cookie('is-logged-in', false, {
+      httpOnly: false,
+      secure: true,
+      path: '/',
+      sameSite: 'none',
+      maxAge: 0,
+    });
+
     const response: ResponseDto = {
       statusCode: HttpStatus.OK,
       message: 'Logout feito com sucesso!',
