@@ -23,4 +23,7 @@ export class User {
 
   @OneToMany(() => Project, (project) => project.user)
   projects: Project[];
+
+  @Column({ default: false })
+  google: boolean;
 }

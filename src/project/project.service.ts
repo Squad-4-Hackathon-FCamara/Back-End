@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   HttpStatus,
   Inject,
   Injectable,
@@ -75,6 +76,7 @@ export class ProjectService {
   async findAllByUser(userId: string) {
     const projects: Project[] = await this.projectRepository.find({
       relations: { tags: true, user: true },
+      select: { user: { avatar_url: true, firstName: true, lastName: true, id: true } },
     });
     const filteredProjects = projects.filter((proj) => proj.user.id === userId);
 
@@ -101,12 +103,17 @@ export class ProjectService {
       relations: { user: true },
     });
 
+    if (!project) throw new NotFoundException('Projeto não encontrado!');
+
     if (project.user.id !== userId)
       throw new UnauthorizedException(
         'Você não tem permissão para atualizar um projeto de outro usuário!',
       );
 
     if (!project) throw new NotFoundException('Projeto não encontrado!');
+
+    if (!updateProjectDto.tags)
+      throw new BadRequestException('tags: As tags não pode estar vazias');
 
     const tags: Tag[] = await this.tagService.findAll();
     const projectTags: Tag[] = tags.filter(
