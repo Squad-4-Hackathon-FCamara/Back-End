@@ -113,6 +113,13 @@ export class AuthController {
       sameSite: 'none',
     });
 
+    res.cookie('is-logged-in', true, {
+      httpOnly: false,
+      secure: true,
+      path: '/',
+      sameSite: 'none',
+    });
+
     const response: ResponseDto = {
       statusCode: HttpStatus.OK,
       message: 'Login feito com sucesso!',
