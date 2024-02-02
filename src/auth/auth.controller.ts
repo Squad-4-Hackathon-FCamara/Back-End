@@ -18,9 +18,16 @@ import { UserQueryFailedFilter } from 'src/filters/user-query-failed/user-query-
 import { ResponseDto } from 'src/utils/response-dto/response-dto';
 import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
+import {
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 
 @Controller('auth')
 @UseFilters(UserQueryFailedFilter)
+@ApiTags('Autenticação')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
@@ -40,6 +47,9 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
+  @ApiOkResponse()
+  @ApiUnauthorizedResponse()
+  @ApiNotFoundResponse()
   async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
     res.cookie('token', await this.authService.login(loginDto), {
       httpOnly: true,

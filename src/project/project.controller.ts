@@ -22,13 +22,25 @@ import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 import { ResponseDto } from 'src/utils/response-dto/response-dto';
+import {
+  ApiCookieAuth,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 
 @Controller('project')
+@ApiTags('Projetos')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Post()
   @UseGuards(AuthGuard('jwt'))
+  @ApiCookieAuth()
+  @ApiCreatedResponse()
+  @ApiUnauthorizedResponse()
   @UseInterceptors(FileInterceptor('file'))
   async create(
     @Body() createProjectDto: CreateProjectDto,
@@ -64,6 +76,9 @@ export class ProjectController {
 
   @Get('discovery')
   @UseGuards(AuthGuard('jwt'))
+  @ApiCookieAuth()
+  @ApiOkResponse()
+  @ApiUnauthorizedResponse()
   async discovery(@Req() req: Request) {
     const { id: userId } = req.user as { id: string };
 
@@ -78,6 +93,10 @@ export class ProjectController {
 
   @Get(':id')
   @UseGuards(AuthGuard('jwt'))
+  @ApiCookieAuth()
+  @ApiOkResponse()
+  @ApiUnauthorizedResponse()
+  @ApiNotFoundResponse()
   async findOne(@Param('id') id: string) {
     const response: ResponseDto = {
       statusCode: HttpStatus.OK,
@@ -90,6 +109,10 @@ export class ProjectController {
 
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
+  @ApiCookieAuth()
+  @ApiOkResponse()
+  @ApiUnauthorizedResponse()
+  @ApiNotFoundResponse()
   @UseInterceptors(FileInterceptor('file'))
   async update(
     @Param('id') id: string,
@@ -125,6 +148,10 @@ export class ProjectController {
 
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
+  @ApiCookieAuth()
+  @ApiOkResponse()
+  @ApiUnauthorizedResponse()
+  @ApiNotFoundResponse()
   async remove(@Param('id') id: string, @Req() req: Request) {
     const { id: userId } = req.user as { id: string };
     await this.projectService.remove(id, userId);
