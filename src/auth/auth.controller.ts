@@ -71,6 +71,7 @@ export class AuthController {
       httpOnly: true,
       secure: true,
       path: '/',
+      sameSite: 'none',
       maxAge: 0,
     });
 
