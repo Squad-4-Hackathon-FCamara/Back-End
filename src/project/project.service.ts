@@ -1,10 +1,10 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Inject,
   Injectable,
   NotFoundException,
   ServiceUnavailableException,
-  UnauthorizedException,
   forwardRef,
 } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
@@ -79,7 +79,7 @@ export class ProjectService {
   async findAllByUser(userId: string) {
     const projects: Project[] = await this.projectRepository.find({
       relations: { tags: true, user: true },
-      select: { user: { avatar_url: true, firstName: true, lastName: true, id: true } },
+      select: { user: { id: true } },
     });
     const filteredProjects = projects.filter((proj) => proj.user.id === userId);
 
@@ -109,7 +109,7 @@ export class ProjectService {
     if (!project) throw new NotFoundException('Projeto não encontrado!');
 
     if (project.user.id !== userId)
-      throw new UnauthorizedException(
+      throw new ForbiddenException(
         'Você não tem permissão para atualizar um projeto de outro usuário!',
       );
 
@@ -164,7 +164,7 @@ export class ProjectService {
 
     if (!project) throw new NotFoundException('Projeto não encontrado!');
     if (project.user.id !== userId)
-      throw new UnauthorizedException('Você não pode deletar um projeto de outro usuário!');
+      throw new ForbiddenException('Você não pode deletar um projeto de outro usuário!');
 
     return await this.projectRepository.delete(project.id);
   }
