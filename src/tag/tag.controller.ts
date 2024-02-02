@@ -3,6 +3,7 @@ import { TagService } from './tag.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiCookieAuth, ApiOkResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { Tag } from './entities/tag.entity';
+import { ResponseDto } from 'src/utils/response-dto/response-dto';
 
 @Controller('tag')
 export class TagController {
@@ -13,7 +14,7 @@ export class TagController {
   @ApiTags('Tags')
   @ApiCookieAuth()
   @ApiOkResponse({ type: [Tag] })
-  @ApiUnauthorizedResponse()
+  @ApiUnauthorizedResponse({ type: ResponseDto })
   findAll() {
     return this.tagService.findAll();
   }

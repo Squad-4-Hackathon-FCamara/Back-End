@@ -11,6 +11,7 @@ import {
   ApiOkResponse,
 } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
+import { ResponseDto } from 'src/utils/response-dto/response-dto';
 
 @Controller('user')
 @ApiTags('User')
@@ -24,9 +25,9 @@ export class UserController {
   @Get(':id')
   @UseGuards(AuthGuard('jwt'))
   @ApiCookieAuth()
-  @ApiOkResponse()
-  @ApiUnauthorizedResponse()
-  @ApiNotFoundResponse()
+  @ApiOkResponse({ type: User })
+  @ApiUnauthorizedResponse({ type: ResponseDto })
+  @ApiNotFoundResponse({ type: ResponseDto })
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
   }
@@ -34,8 +35,8 @@ export class UserController {
   @Get('me/data')
   @UseGuards(AuthGuard('jwt'))
   @ApiCookieAuth()
-  @ApiOkResponse()
-  @ApiNotFoundResponse()
+  @ApiOkResponse({ type: User })
+  @ApiNotFoundResponse({ type: ResponseDto })
   me(@Req() req: Request) {
     const { id: userId } = req.user as { id: string };
     return this.userService.findOne(userId);

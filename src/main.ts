@@ -15,7 +15,6 @@ async function bootstrap() {
     .addTag('Projetos')
     .addTag('Tags')
     .addTag('User')
-    .addCookieAuth('token')
     .build();
   const document = SwaggerModule.createDocument(app, config, {});
   SwaggerModule.setup('api', app, document);

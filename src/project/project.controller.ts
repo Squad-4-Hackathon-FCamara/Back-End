@@ -23,13 +23,16 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 import { ResponseDto } from 'src/utils/response-dto/response-dto';
 import {
+  ApiBadRequestResponse,
   ApiCookieAuth,
   ApiCreatedResponse,
+  ApiForbiddenResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { Project } from './entities/project.entity';
 
 @Controller('project')
 @ApiTags('Projetos')
@@ -39,8 +42,9 @@ export class ProjectController {
   @Post()
   @UseGuards(AuthGuard('jwt'))
   @ApiCookieAuth()
-  @ApiCreatedResponse()
-  @ApiUnauthorizedResponse()
+  @ApiCreatedResponse({ type: ResponseDto })
+  @ApiBadRequestResponse({ type: ResponseDto })
+  @ApiUnauthorizedResponse({ type: ResponseDto })
   @UseInterceptors(FileInterceptor('file'))
   async create(
     @Body() createProjectDto: CreateProjectDto,
@@ -50,8 +54,8 @@ export class ProjectController {
         errorHttpStatusCode: HttpStatus.BAD_REQUEST,
         validators: [
           new MaxFileSizeValidator({
-            maxSize: 200000,
-            message: 'Imagem não pode ter mais de 200kb',
+            maxSize: 1000000,
+            message: 'Imagem não pode ter mais de 1mb',
           }),
         ],
       }),
@@ -77,8 +81,8 @@ export class ProjectController {
   @Get('discovery')
   @UseGuards(AuthGuard('jwt'))
   @ApiCookieAuth()
-  @ApiOkResponse()
-  @ApiUnauthorizedResponse()
+  @ApiOkResponse({ type: [Project] })
+  @ApiUnauthorizedResponse({ type: ResponseDto })
   async discovery(@Req() req: Request) {
     const { id: userId } = req.user as { id: string };
 
@@ -94,9 +98,9 @@ export class ProjectController {
   @Get(':id')
   @UseGuards(AuthGuard('jwt'))
   @ApiCookieAuth()
-  @ApiOkResponse()
-  @ApiUnauthorizedResponse()
-  @ApiNotFoundResponse()
+  @ApiOkResponse({ type: Project })
+  @ApiUnauthorizedResponse({ type: ResponseDto })
+  @ApiNotFoundResponse({ type: ResponseDto })
   async findOne(@Param('id') id: string) {
     const response: ResponseDto = {
       statusCode: HttpStatus.OK,
@@ -110,9 +114,11 @@ export class ProjectController {
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
   @ApiCookieAuth()
-  @ApiOkResponse()
-  @ApiUnauthorizedResponse()
-  @ApiNotFoundResponse()
+  @ApiOkResponse({ type: ResponseDto })
+  @ApiBadRequestResponse({ type: ResponseDto })
+  @ApiUnauthorizedResponse({ type: ResponseDto })
+  @ApiForbiddenResponse({ type: ResponseDto })
+  @ApiNotFoundResponse({ type: ResponseDto })
   @UseInterceptors(FileInterceptor('file'))
   async update(
     @Param('id') id: string,
@@ -123,8 +129,8 @@ export class ProjectController {
         errorHttpStatusCode: HttpStatus.BAD_REQUEST,
         validators: [
           new MaxFileSizeValidator({
-            maxSize: 200000,
-            message: 'Imagem não pode ter mais de 200kb',
+            maxSize: 1000000,
+            message: 'Imagem não pode ter mais de 1mb',
           }),
         ],
       }),
@@ -149,9 +155,10 @@ export class ProjectController {
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
   @ApiCookieAuth()
-  @ApiOkResponse()
-  @ApiUnauthorizedResponse()
-  @ApiNotFoundResponse()
+  @ApiOkResponse({ type: ResponseDto })
+  @ApiUnauthorizedResponse({ type: ResponseDto })
+  @ApiForbiddenResponse({ type: ResponseDto })
+  @ApiNotFoundResponse({ type: ResponseDto })
   async remove(@Param('id') id: string, @Req() req: Request) {
     const { id: userId } = req.user as { id: string };
     await this.projectService.remove(id, userId);

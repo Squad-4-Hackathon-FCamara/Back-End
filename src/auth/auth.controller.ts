@@ -19,6 +19,8 @@ import { ResponseDto } from 'src/utils/response-dto/response-dto';
 import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
 import {
+  ApiCreatedResponse,
+  ApiExcludeEndpoint,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
@@ -35,6 +37,7 @@ export class AuthController {
   ) {}
 
   @Post('register')
+  @ApiCreatedResponse({ type: ResponseDto })
   async register(@Body() createUserDto: CreateUserDto) {
     await this.authService.register(createUserDto);
     const response: ResponseDto = {
@@ -47,9 +50,9 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  @ApiOkResponse()
-  @ApiUnauthorizedResponse()
-  @ApiNotFoundResponse()
+  @ApiOkResponse({ type: ResponseDto })
+  @ApiUnauthorizedResponse({ type: ResponseDto })
+  @ApiNotFoundResponse({ type: ResponseDto })
   async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
     res.cookie('token', await this.authService.login(loginDto), {
       httpOnly: true,
@@ -76,6 +79,7 @@ export class AuthController {
 
   @Post('logout')
   @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: ResponseDto })
   async logout(@Res({ passthrough: true }) res: Response, @Req() req: Request) {
     res.cookie('token', '', {
       httpOnly: true,
@@ -105,10 +109,12 @@ export class AuthController {
 
   @Get('login/google')
   @UseGuards(AuthGuard('google'))
+  @ApiExcludeEndpoint()
   loginGoogle(@Req() req: Request) {}
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
+  @ApiExcludeEndpoint()
   async googleAuthRedirect(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const { email } = req.user as { email: string };
 
