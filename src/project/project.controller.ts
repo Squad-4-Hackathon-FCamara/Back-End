@@ -38,8 +38,8 @@ export class ProjectController {
         errorHttpStatusCode: HttpStatus.BAD_REQUEST,
         validators: [
           new MaxFileSizeValidator({
-            maxSize: 200000,
-            message: 'Imagem não pode ter mais de 200kb',
+            maxSize: 1000000,
+            message: 'Imagem não pode ter mais de 1mb',
           }),
         ],
       }),
@@ -100,8 +100,8 @@ export class ProjectController {
         errorHttpStatusCode: HttpStatus.BAD_REQUEST,
         validators: [
           new MaxFileSizeValidator({
-            maxSize: 200000,
-            message: 'Imagem não pode ter mais de 200kb',
+            maxSize: 1000000,
+            message: 'Imagem não pode ter mais de 1mb',
           }),
         ],
       }),
