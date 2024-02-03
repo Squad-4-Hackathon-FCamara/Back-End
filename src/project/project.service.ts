@@ -89,6 +89,7 @@ export class ProjectService {
   async discovery(userId: string) {
     const projects = await this.projectRepository.find({
       relations: { user: true, tags: true },
+      select: { user: { id: true, firstName: true, lastName: true, avatar_url: true } },
     });
 
     const filterProjects = projects.filter((proj) => proj.user.id !== userId);
