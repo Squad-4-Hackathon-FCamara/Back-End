@@ -24,6 +24,8 @@ import { Request } from 'express';
 import { ResponseDto } from 'src/utils/response-dto/response-dto';
 import {
   ApiBadRequestResponse,
+  ApiBody,
+  ApiConsumes,
   ApiCookieAuth,
   ApiCreatedResponse,
   ApiForbiddenResponse,
@@ -33,6 +35,8 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { Project } from './entities/project.entity';
+import { CreateProjectFileUploadDto } from './dto/create-project-file-upload-dto';
+import { UpdateProjectFileUploadDto } from './dto/update-project-file-upload-dto';
 
 @Controller('project')
 @ApiTags('Projetos')
@@ -46,6 +50,10 @@ export class ProjectController {
   @ApiBadRequestResponse({ type: ResponseDto })
   @ApiUnauthorizedResponse({ type: ResponseDto })
   @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: CreateProjectFileUploadDto,
+  })
   async create(
     @Body() createProjectDto: CreateProjectDto,
     @UploadedFile(
@@ -65,6 +73,9 @@ export class ProjectController {
   ) {
     if (file && file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/png')
       throw new BadRequestException('Imagem deve ter algum dos formatos: JPG ou PNG');
+
+    if (typeof createProjectDto.tags === 'string')
+      createProjectDto.tags = (createProjectDto.tags as string[]).toString().split(',');
 
     const { id: userId } = req.user as { id: string };
 
@@ -120,6 +131,10 @@ export class ProjectController {
   @ApiForbiddenResponse({ type: ResponseDto })
   @ApiNotFoundResponse({ type: ResponseDto })
   @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: UpdateProjectFileUploadDto,
+  })
   async update(
     @Param('id') id: string,
     @Body() updateProjectDto: UpdateProjectDto,
@@ -140,6 +155,9 @@ export class ProjectController {
   ) {
     if (file && file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/png')
       throw new BadRequestException('Imagem deve ter algum dos formatos: JPG ou PNG');
+
+    if (typeof updateProjectDto.tags === 'string')
+      updateProjectDto.tags = (updateProjectDto.tags as string[]).toString().split(',');
 
     const { id: userId } = req.user as { id: string };
 

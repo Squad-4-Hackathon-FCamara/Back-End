@@ -20,9 +20,8 @@ export class CreateProjectDto {
   })
   url: string;
 
-  @ApiProperty({ required: true })
+  @ApiProperty({ type: Array<string> })
   @IsNotEmpty({ message: 'tags: O campo de tags não pode estar vazio' })
-  @IsArray({ message: 'tags: O campo de tags deve vir como um array' })
   tags: string[];
 
   @ApiProperty({ required: false })
