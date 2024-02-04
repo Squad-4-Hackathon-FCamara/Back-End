@@ -63,8 +63,8 @@ Client_ID_Google=
 # O ClientSecret, que é encontrado no mesmo lugar do ClientId, e usado para o mesmo propósito.
 Client_Secret_Google=
 
-# O endereço de redirecionamento que será chamado após o usuário fazer login usando o google na aplicação.
-Callback_URL_Google=
+# O domínio onde essa aplicação está executando. Rodando localmente ficaria como `http://localhost:SERVER_PORT`, sendo SERVER_PORT a porta definida no arquivo `.env`.
+Host_Domain=
 ```
 
 2º passo - Com o terminal aberto na raiz do projeto, execute o comando `npm install` para que todas as dependências sejam baixadas. <br><br>
