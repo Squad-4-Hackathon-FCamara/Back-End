@@ -83,7 +83,7 @@ Para visualizar a documentação de todas as rotas do projeto usando o swagger, 
 ## Contribuidores
 
 * [Gustavo Lima](https://github.com/gustas01)<br>
-* [Giovani de Oliveira](https://github.com/gustas01)<br>
+* [Giovani de Oliveira](https://github.com/Giovani-O)<br>
 * [Paulo Ricardo](https://github.com/Paulo-Ricard0)<br>
 * [Thayna Baima](https://github.com/thaynahakan)<br>
 * [Carlos Richard](https://github.com/Crichard7)<br>
