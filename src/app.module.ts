@@ -12,7 +12,7 @@ import { TagModule } from './tag/tag.module';
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: String(process.env.DB_URL),
-      synchronize: true,
+      synchronize: false,
       autoLoadEntities: true,
     }),
     AuthModule,
