@@ -18,6 +18,7 @@ import { UserQueryFailedFilter } from 'src/filters/user-query-failed/user-query-
 import { ResponseDto } from 'src/utils/response-dto/response-dto';
 import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
+import { UnauthorizedExceptionRedirectFilter } from 'src/filters/unauthorized-exception-redirect/unauthorized-exception-redirect.filter';
 
 @Controller('auth')
 @UseFilters(UserQueryFailedFilter)
@@ -100,6 +101,7 @@ export class AuthController {
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
+  @UseFilters(UnauthorizedExceptionRedirectFilter)
   async googleAuthRedirect(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const { email } = req.user as { email: string };
 
@@ -119,6 +121,6 @@ export class AuthController {
       sameSite: 'none',
     });
 
-    res.redirect('http://localhost:5173/');
+    res.redirect(`${process.env.Client_Domain}`);
   }
 }
