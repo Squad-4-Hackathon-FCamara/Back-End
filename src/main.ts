@@ -9,7 +9,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Orange Portfólio')
-    .setDescription('Descrição de todas as rotas do Orange Portfólio - Hackaton FCamara')
+    .setDescription('Descrição de todas as rotas do Orange Portfólio da squad 4 - Hackaton FCamara')
     .setVersion('1.0')
     .addTag('Autenticação')
     .addTag('Projetos')
