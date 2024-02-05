@@ -34,6 +34,7 @@ export class AuthController {
     const response: ResponseDto = {
       statusCode: HttpStatus.CREATED,
       message: 'Usuário criado com sucesso!',
+      token: '',
       error: false,
     };
     return response;
@@ -42,23 +43,24 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
-    res.cookie('token', await this.authService.login(loginDto), {
-      httpOnly: true,
-      secure: true,
-      path: '/',
-      sameSite: 'none',
-    });
+    // res.cookie('token', await this.authService.login(loginDto), {
+    //   httpOnly: true,
+    //   secure: true,
+    //   path: '/',
+    //   sameSite: 'none',
+    // });
 
-    res.cookie('is-logged-in', true, {
-      httpOnly: false,
-      secure: true,
-      path: '/',
-      sameSite: 'none',
-    });
+    // res.cookie('is-logged-in', true, {
+    //   httpOnly: false,
+    //   secure: true,
+    //   path: '/',
+    //   sameSite: 'none',
+    // });
 
     const response: ResponseDto = {
       statusCode: HttpStatus.OK,
       message: 'Login feito com sucesso!',
+      token: await this.authService.login(loginDto),
       error: false,
     };
 
@@ -89,6 +91,7 @@ export class AuthController {
     const response: ResponseDto = {
       statusCode: HttpStatus.OK,
       message: 'Logout feito com sucesso!',
+      token: '',
       error: false,
     };
 
