@@ -5,18 +5,19 @@
 ![Static Badge](https://img.shields.io/badge/orange%20juice-orange)
 ![Static Badge](https://img.shields.io/badge/fcamara-orange)
 
-
-![FINAL](https://github.com/Squad-4-Hackathon-FCamara/Back-End/assets/50846424/91e76f8f-1216-4a92-a51c-67fab77dd134)
+<h1 align="center">
+   <a href="https://orange-portfolio-swagger.onrender.com/api"><img alt="Banner orange portfolio" title="Quiz sobre Baleias" src="https://github.com/Squad-4-Hackathon-FCamara/Back-End/assets/50846424/91e76f8f-1216-4a92-a51c-67fab77dd134"/></a>
+</h1>
 
 
 ## Sobre
-O projeto em questão se trata do backend do Orange Portfólio da squad 4 da 5ª edição do Programa de formação da FCamara e Orange Juice.
+O projeto em questão se trata do backend do Orange Portfólio da squad 4 da 5ª edição do Programa de formação da FCamara e Orange Juice. <br><br> O Orange Portfólio é uma plataforma dedicada a potencializar a visibilidade e o crescimento profissional dos membros da comunidade Orange Juice. Desenvolvido com o objetivo de superar as barreiras encontradas por novos programadores na exposição de seus projetos e na interação com outros membros da comunidade, o Orange Portfolio oferece uma interface intuitiva e recursos para criar, compartilhar e descobrir projetos de maneira simples e eficiente. Com uma forte ênfase na colaboração e na inspiração mútua, nossa plataforma visa transformar experiências individuais em conexões significativas, impulsionando assim o desenvolvimento e a inovação na comunidade.
 
 ## Principais tecnologias utilizadas
-* [NestJS](https://nestjs.com/)
-* [Typescript](https://www.typescriptlang.org/)
-* [TypeORM](https://typeorm.io/)
-* [PostgreSQL](https://www.postgresql.org/)
+<a href="https://nestjs.com/"><img alt="NESTJS" src="https://img.shields.io/badge/nestjs-ff5522?style=for-the-badge&logo=nestjs&logoColor=white"></a>
+<a href="https://www.typescriptlang.org/"><img alt="TYPESCRIPT" src="https://img.shields.io/badge/typescript-ff5522?style=for-the-badge&logo=typescript&logoColor=white"></a>
+<a href="https://typeorm.io/"><img alt="TYPEORM" src="https://img.shields.io/badge/typeorm-ff5522?style=for-the-badge&logo=type-orm&logoColor=white"></a>
+<a href="https://www.postgresql.org/"><img alt="POSTGRE" src="https://img.shields.io/badge/postgresql-ff5522?style=for-the-badge&logo=postgresql&logoColor=white"></a>
 
 ### Funcionalidades
 
@@ -48,23 +49,8 @@ JWT_ISSUER=
 # O destinatário do token, representa a aplicação que irá usá-lo.
 JWT_AUDIENCE=
 
-
-# O domínio de quem irá usar o projeto. Se for um frontend, será o domínio dele. Ex: http://meudominio.com.br
-Client_Domain=
-
-
 # O ID da aplicação criada no site do Imgur onde ficarão armazenadas as imagens enviadas para dentro do projeto.
 Client_ID_Imgur=
-
-
-# O ClientId gerado no sua conta do google cloud que habilitará a funcionalidade de "login com o google" na aplicação.
-Client_ID_Google=
-
-# O ClientSecret, que é encontrado no mesmo lugar do ClientId, e usado para o mesmo propósito.
-Client_Secret_Google=
-
-# O domínio onde essa aplicação está executando. Rodando localmente ficaria como `http://localhost:SERVER_PORT`, sendo SERVER_PORT a porta definida no arquivo `.env`.
-Host_Domain=
 ```
 
 2º passo - Com o terminal aberto na raiz do projeto, execute o comando `npm install` para que todas as dependências sejam baixadas. <br><br>
@@ -72,18 +58,19 @@ Host_Domain=
 
 
 ## Documentação
-Para visualizar a documentação de todas as rotas do projeto usando o swagger, siga os seguintes passos:<br><br>
-1º passo - Com o passo 1 do tópico anterior já feito, mude para a branch `doc/swagger`, para isso, execute o comando `git checkout doc/swagger` no terminal aberto na raiz do projeto.<br><br>
-2º passo - Execute o comando `npm install` para que todas as dependências sejam baixadas, inclusive a do Swagger. <br><br>
-3º passo - No mesmo terminal, execute `npm run start:dev`para que o projeto seja executado em modo de desenvolvimento.<br><br>
-4º passo - No seu navegador, abra no endereço `http://localhost:3001/api`. <br>
-(Levando em conta que `3001` é a porta definida lá na propriedade `SERVER_PORT` do seu arquivo `.env`. Caso seja outra, substitua por ela).
+Para visualizar a documentação de todas as rotas do projeto usando o swagger, [clique aqui](https://orange-portfolio-swagger.onrender.com/api) <br><br>
 
 
-## Contribuidores
+## 🤝 Colaboradores
 
-* [Gustavo Lima](https://github.com/gustas01)<br>
-* [Giovani de Oliveira](https://github.com/Giovani-O)<br>
-* [Paulo Ricardo](https://github.com/Paulo-Ricard0)<br>
-* [Thayna Baima](https://github.com/thaynahakan)<br>
-* [Carlos Richard](https://github.com/Crichard7)<br>
+Este projeto foi desenvolvido com a colaboração de:
+
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/gustas01"><img src="https://firebasestorage.googleapis.com/v0/b/uploads-58ebc.appspot.com/o/gustavo.jpeg?alt=media&token=f3033590-35d0-4456-8814-eb29e7274879" width="80px;" alt="Foto Gustavo Lima"/><br /><sub><b>Gustavo Lima</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/Paulo-Ricard0"><img src="https://firebasestorage.googleapis.com/v0/b/uploads-58ebc.appspot.com/o/paulo.jpeg?alt=media&token=8658818a-1377-478a-884e-03efc40f2980" width="80px" alt="Foto Paulo Ricardo"/><br /><sub><b>Paulo Ricardo</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/Giovani-O"><img src="https://firebasestorage.googleapis.com/v0/b/uploads-58ebc.appspot.com/o/giovani.jpeg?alt=media&token=c4e4f454-0f67-46da-9313-652a384aa7f4" width="80px" alt="Foto Giovani Oliveira"/><br /><sub><b>Giovani Oliveira</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/thaynahakan"><img src="https://firebasestorage.googleapis.com/v0/b/uploads-58ebc.appspot.com/o/thayna.jpeg?alt=media&token=7d83c892-4fbf-4bb9-a1de-e2f79a1d34df" width="80px" alt="Foto Thayna Bittencourt"/><br /><sub><b>Thayna Bittencourt</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/Crichard7"><img src="https://firebasestorage.googleapis.com/v0/b/uploads-58ebc.appspot.com/o/carlos.jpeg?alt=media&token=0128e2be-29f6-405b-b319-1e32b8eaf5bd" width="80px" alt="Foto Carlos Richard"/><br /><sub><b>Carlos Richard</b></sub></a><br /></td>
+  </tr>
+</table>
