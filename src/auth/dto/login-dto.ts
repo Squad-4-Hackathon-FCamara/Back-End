@@ -1,4 +1,4 @@
-import { IsEmail, IsStrongPassword } from 'class-validator';
+import { IsBoolean, IsEmail, IsOptional, IsString, IsStrongPassword } from 'class-validator';
 
 export class LoginDto {
   @IsEmail({}, { message: `email: O email deve ser válido` })
@@ -18,4 +18,15 @@ export class LoginDto {
     },
   )
   password: string;
+
+  @IsString()
+  @IsOptional()
+  firstName?: string;
+
+  @IsString()
+  @IsOptional()
+  lastName?: string;
+
+  @IsOptional()
+  userGoogle?: boolean;
 }

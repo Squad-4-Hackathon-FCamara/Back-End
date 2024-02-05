@@ -13,18 +13,33 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async register(createUserDto: CreateUserDto) {
-    const user = this.userService.create(createUserDto);
+  async register(createUserDto: CreateUserDto, userGoogle = false) {
+    const user = this.userService.create(createUserDto, userGoogle);
     return user;
   }
 
-  async login(loginDto: LoginDto, userGoogle = false) {
-    const user: User = await this.userService.findOneByEmail(loginDto.email);
+  async login(loginDto: LoginDto) {
+    let user: User = await this.userService.findOneByEmail(loginDto.email, loginDto.userGoogle);
 
-    if (user.google && !userGoogle)
+    if (!user && loginDto.userGoogle) {
+      user = await this.register(
+        {
+          email: loginDto.email,
+          password: ' ',
+          firstName: loginDto.firstName,
+          lastName: loginDto.lastName,
+        },
+        true,
+      );
+    }
+
+    if (user && user.google && !loginDto.userGoogle)
       throw new UnauthorizedException('Seu email foi cadastrado usando o google!');
 
-    if (!user || !(userGoogle || (await bcrypt.compare(loginDto.password, user?.password))))
+    if (user && !user.google && loginDto.userGoogle)
+      throw new UnauthorizedException('Seu email foi cadastrado usando email/password!');
+
+    if (!(user.google || (await bcrypt.compare(loginDto.password, user?.password))))
       throw new UnauthorizedException('Usuário ou senha inválidos!');
 
     const payload = {
