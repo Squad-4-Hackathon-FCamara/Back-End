@@ -42,23 +42,10 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
-    res.cookie('token', await this.authService.login(loginDto), {
-      httpOnly: true,
-      secure: true,
-      path: '/',
-      sameSite: 'none',
-    });
-
-    res.cookie('is-logged-in', true, {
-      httpOnly: false,
-      secure: true,
-      path: '/',
-      sameSite: 'none',
-    });
-
+    const token = await this.authService.login(loginDto);
     const response: ResponseDto = {
       statusCode: HttpStatus.OK,
-      message: 'Login feito com sucesso!',
+      message: { token },
       error: false,
     };
 
@@ -68,23 +55,7 @@ export class AuthController {
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   async logout(@Res({ passthrough: true }) res: Response, @Req() req: Request) {
-    res.cookie('token', '', {
-      httpOnly: true,
-      secure: true,
-      path: '/',
-      sameSite: 'none',
-      maxAge: 0,
-    });
-
     req.user = undefined;
-
-    res.cookie('is-logged-in', false, {
-      httpOnly: false,
-      secure: true,
-      path: '/',
-      sameSite: 'none',
-      maxAge: 0,
-    });
 
     const response: ResponseDto = {
       statusCode: HttpStatus.OK,
@@ -107,20 +78,13 @@ export class AuthController {
 
     const token = await this.authService.login({ email: email, password: '' }, true);
 
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: true,
-      path: '/',
-      sameSite: 'none',
-    });
-
-    res.cookie('is-logged-in', true, {
-      httpOnly: false,
-      secure: true,
-      path: '/',
-      sameSite: 'none',
-    });
+    const response: ResponseDto = {
+      statusCode: HttpStatus.OK,
+      message: { token },
+      error: false,
+    };
 
     res.redirect(`${process.env.Client_Domain}`);
+    return response;
   }
 }
