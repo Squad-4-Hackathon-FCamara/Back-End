@@ -27,7 +27,7 @@ export class AuthService {
           email: loginDto.email,
           password: ' ',
           firstName: loginDto.firstName,
-          lastName: loginDto.lastName,
+          lastName: loginDto.lastName ?? ' ',
         },
         true,
       );
