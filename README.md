@@ -9,17 +9,22 @@
    <a href="https://orange-portfolio-swagger.onrender.com/api"><img alt="Banner orange portfolio" title="Quiz sobre Baleias" src="https://github.com/Squad-4-Hackathon-FCamara/Back-End/assets/50846424/91e76f8f-1216-4a92-a51c-67fab77dd134"/></a>
 </h1>
 
+---
 
-## Sobre
-O projeto em questão se trata do backend do Orange Portfólio da squad 4 da 5ª edição do Programa de formação da FCamara e Orange Juice. <br><br> O Orange Portfólio é uma plataforma dedicada a potencializar a visibilidade e o crescimento profissional dos membros da comunidade Orange Juice. Desenvolvido com o objetivo de superar as barreiras encontradas por novos programadores na exposição de seus projetos e na interação com outros membros da comunidade, o Orange Portfolio oferece uma interface intuitiva e recursos para criar, compartilhar e descobrir projetos de maneira simples e eficiente. Com uma forte ênfase na colaboração e na inspiração mútua, nossa plataforma visa transformar experiências individuais em conexões significativas, impulsionando assim o desenvolvimento e a inovação na comunidade.
+## 💻 Sobre
+Backend do Orange Portfolio, um MVP desenvolvido pelo Squad 4 da 5ª edição do Programa de Formação da Orange Juice em parceria com a FCamara, desempenha um papel crucial ao fornecer os serviços e funcionalidades necessários para suportar a operação e a interação dos usuários na plataforma. Ele é a base que sustenta toda a experiência do usuário, garantindo um funcionamento suave e eficaz da aplicação.
 
-## Principais tecnologias utilizadas
+---
+
+## 🛠️ Tecnologias utilizadas
 <a href="https://nestjs.com/"><img alt="NESTJS" src="https://img.shields.io/badge/nestjs-ff5522?style=for-the-badge&logo=nestjs&logoColor=white"></a>
 <a href="https://www.typescriptlang.org/"><img alt="TYPESCRIPT" src="https://img.shields.io/badge/typescript-ff5522?style=for-the-badge&logo=typescript&logoColor=white"></a>
 <a href="https://typeorm.io/"><img alt="TYPEORM" src="https://img.shields.io/badge/typeorm-ff5522?style=for-the-badge&logo=type-orm&logoColor=white"></a>
 <a href="https://www.postgresql.org/"><img alt="POSTGRE" src="https://img.shields.io/badge/postgresql-ff5522?style=for-the-badge&logo=postgresql&logoColor=white"></a>
 
-### Funcionalidades
+---
+
+### ⚙️ Funcionalidades
 
 - [x] Cadastro de usuário
 - [x] Login com o Google
@@ -29,7 +34,7 @@ O projeto em questão se trata do backend do Orange Portfólio da squad 4 da 5ª
 - [x] Descoberta de novos projetos
 - [x] Filtragem projetos por categorias
 
-## Como executar localmente
+## 👨‍💻 Como executar localmente
 1º passo - Depois de clonar o projeto, renomeie o arquivo chamado `.env.example` para apenas `.env`, e o preencha com as informações que se pede:
 ```bash
 # A porta onde o backend estará onvindo as requisições.
@@ -53,11 +58,14 @@ JWT_AUDIENCE=
 Client_ID_Imgur=
 ```
 
-2º passo - Com o terminal aberto na raiz do projeto, execute o comando `npm install` para que todas as dependências sejam baixadas. <br><br>
+2º passo - Com o terminal aberto na raiz do projeto, execute o comando `npm install` para que todas as dependências sejam baixadas.
+
 3º passo - No mesmo terminal, execute `npm run start:dev`para que o projeto seja executado em modo de desenvolvimento.
 
+---
 
-## Documentação
+
+## 📚 Documentação
 Para visualizar a documentação de todas as rotas do projeto usando o swagger, [clique aqui](https://orange-portfolio-swagger.onrender.com/api) <br><br>
 
 
