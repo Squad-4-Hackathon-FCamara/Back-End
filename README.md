@@ -12,7 +12,7 @@
 ---
 
 ## 💻 Sobre
-Backend do Orange Portfolio, um MVP desenvolvido pelo Squad 4 da 5ª edição do Programa de Formação da [Orange Juice](https://tech.orangejuice.com.br/orangejuice) em parceria com a [FCamara](https://fcamara.com/), desempenha um papel crucial ao fornecer os serviços e funcionalidades necessários para suportar a operação e a interação dos usuários na plataforma. Ele é a base que sustenta toda a experiência do usuário, garantindo um funcionamento suave e eficaz da aplicação.
+Backend do Orange Portfolio, um MVP desenvolvido pelo Squad 4 da 5ª edição do Programa de Formação da [Orange Juice](https://tech.orangejuice.com.br/orangejuice) em parceria com a [FCamara](https://fcamara.com/), desempenha um papel crucial ao fornecer os serviços e funcionalidades necessários para suportar a operação e a interação dos usuários na plataforma, sendo ele a base que sustenta toda a experiência do usuário, garantindo um funcionamento suave e eficaz da aplicação.
 
 ---
 
@@ -28,6 +28,7 @@ Backend do Orange Portfolio, um MVP desenvolvido pelo Squad 4 da 5ª edição do
 
 - [x] Cadastro de usuário
 - [x] Login com o Google
+- [x] Login com email e senha
 - [x] Cadastro de Projetos
 - [x] Edição de projetos
 - [x] Exclusão de projetos
